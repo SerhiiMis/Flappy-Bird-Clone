@@ -16,6 +16,7 @@ FPS = 30
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
+RED = (255, 0, 0)
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Flappy Bird Clone")
@@ -30,6 +31,12 @@ def create_pipe():
     pipes.append(pygame.Rect(WIDTH, 0, PIPE_WIDTH, height - PIPE_GAP))
 
 create_pipe()
+
+def check_collision():
+    for pipe in pipes:
+        if bird.colliderect(pipe):
+            return True
+    return False
 
 running = True
 clock = pygame.time.Clock()
@@ -56,6 +63,9 @@ while running:
         pipes.pop(0)
         pipes.pop(0)
         create_pipe()
+
+    if check_collision():
+        running = False
     
     pygame.draw.rect(screen, BLUE, bird)
     for pipe in pipes:
